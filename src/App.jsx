@@ -8,8 +8,8 @@ function App() {
 
   return (
     <>
-      <UseState/>
-      <ClassState/>
+      <UseState name="UseState"/>
+      <ClassState name="ClassState"/>
 
     </>
   )
