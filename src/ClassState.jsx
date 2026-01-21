@@ -1,10 +1,33 @@
 import React from 'react'
+import { Loading } from './Loading';
 
 class ClassState extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            error: false,
+            error: true,
+            loading: false
+        }
+    }
+
+    // UNSAFE_componentWillMount(){
+    //     console.log("componentWillMount");
+    // }
+
+    // componentDidMount(){
+    //     console.log("componentDidMount");
+    // }
+
+    componentDidUpdate(){
+        console.log("componentDidUpdate");
+        
+        if (!!this.state.loading) {
+            setTimeout(() => {
+                console.log("useEffect")
+                this.setState({loading: false})
+                console.log("end useEffect");
+
+            }, 3000)
         }
     }
     render(){
@@ -16,12 +39,16 @@ class ClassState extends React.Component{
             {this.state.error && (
                 <p> Error: El codigo es incorrecto</p>
             )}
+
+            {this.state.loading && (
+                <Loading/>
+            )}
             
             <input placeholder='Codigo de seguridad'
             className='w-full px-4 py-2 bg-white border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
             />
             <button 
-            onClick={()=> this.setState({error: !this.state.error})}
+            onClick={()=> this.setState({loading: true})}
             className='w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md'>Comprobar</button>
         </div>
         )
