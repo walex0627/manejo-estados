@@ -1,19 +1,24 @@
 import React from 'react'
 
+
+const SECURITY_CODE = 'paradigma'
 function UseState({ name }) {
 
-    const [error, setError] = React.useState(true)
+    const [value, setValue] = React.useState('')
+    const [error, setError] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
 
+    console.log(value)
     React.useEffect(() => {
-        console.log("start")
-
         if (!!loading) {
             setTimeout(() => {
-                console.log("useEffect")
-                setLoading(false)
-                console.log("end useEffect");
 
+                if(value !== SECURITY_CODE){
+                    setError(true)
+                }else{
+                    setError(false)
+                }
+                setLoading(false)
             }, 3000)
         }
     }, [loading])
@@ -31,6 +36,9 @@ function UseState({ name }) {
             )}
 
             <input
+                value = {value}
+                onChange={(e)=> {setValue(e.target.value)}}
+                
                 placeholder='Codigo de seguridad'
                 className='w-full px-4 py-2 border bg-white border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
             />
