@@ -1,8 +1,22 @@
 import React from 'react'
 
-function UseState({name}){
+function UseState({ name }) {
 
     const [error, setError] = React.useState(true)
+    const [loading, setLoading] = React.useState(false)
+
+    React.useEffect(() => {
+        console.log("start")
+
+        if (!!loading) {
+            setTimeout(() => {
+                console.log("useEffect")
+                setLoading(false)
+                console.log("end useEffect");
+
+            }, 3000)
+        }
+    }, [loading])
 
     return (
         <div className='flex flex-col items-center p-8  bg-gray-200 shadow-lg rounded-xl border border-gray-200 max-w-md mx-auto mt-10'>
@@ -11,15 +25,19 @@ function UseState({name}){
             {error && (
                 <p> Error: El codigo es incorrecto</p>
             )}
-            
-            <input 
-                placeholder='Codigo de seguridad' 
+
+            {loading && (
+                <p>Cargando...</p>
+            )}
+
+            <input
+                placeholder='Codigo de seguridad'
                 className='w-full px-4 py-2 border bg-white border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
             />
-            <button onClick={() => setError(!error)} className='w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md'>Comprobar</button>
+            <button onClick={() => setLoading(!loading)} className='w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md'>Comprobar</button>
         </div>
     )
 }
 
 
-export {UseState}
+export { UseState }
