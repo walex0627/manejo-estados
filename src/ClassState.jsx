@@ -1,11 +1,14 @@
 import React from 'react'
 import { Loading } from './Loading';
 
+const SECURITY_CODE = 'paradigma'
+
 class ClassState extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            error: true,
+            value: '',
+            error: false,
             loading: false
         }
     }
@@ -24,7 +27,11 @@ class ClassState extends React.Component{
         if (!!this.state.loading) {
             setTimeout(() => {
                 console.log("useEffect")
-                this.setState({loading: false})
+                if(SECURITY_CODE === this.state.value){
+                    this.setState({error: false, loading: false})
+                }else {
+                    this.setState({loading: false, error: true})
+                }
                 console.log("end useEffect");
 
             }, 3000)
@@ -36,7 +43,7 @@ class ClassState extends React.Component{
         <div className='flex flex-col items-center p-8 bg-gray-200 shadow-lg rounded-xl border border-gray-300 max-w-md mx-auto mt-10'>
             <h1 className='text-2xl font-bold mb-4 text-gray-800'>Eliminar {this.props.name}</h1>
             <p className='text-gray-600 mb-6 text-center'>Por favor, escribe el codigo de seguridad</p>
-            {this.state.error && (
+            {(this.state.error && !this.state.loading)&& (
                 <p> Error: El codigo es incorrecto</p>
             )}
 
@@ -44,7 +51,12 @@ class ClassState extends React.Component{
                 <Loading/>
             )}
             
-            <input placeholder='Codigo de seguridad'
+            <input 
+            value={this.state.value}
+            onChange={(event)=>{
+                this.setState({value: event.target.value})
+            }}
+            placeholder='Codigo de seguridad'
             className='w-full px-4 py-2 bg-white border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
             />
             <button 
